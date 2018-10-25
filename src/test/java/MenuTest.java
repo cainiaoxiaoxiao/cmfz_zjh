@@ -17,5 +17,6 @@ public class MenuTest extends CmfzTest {
     public void queryAll(){
         List<Menu> menus = menuService.queryAll();
         System.out.println(menus);
+
     }
 }
