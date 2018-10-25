@@ -13,7 +13,7 @@
             columns: [[
                 {field: 'name', title: '名字', width: 100},
                 {
-                    field: 'status', title: '状态(/N)', width: 100,
+                    field: 'status', title: '状态(Y/N)', width: 100,
                     formatter: function (value, row, index) {
                         // alert(row.status)
                         if (row.status == 0) {
