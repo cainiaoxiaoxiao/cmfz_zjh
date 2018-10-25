@@ -54,10 +54,21 @@ public class BannerController {
     }
 
     @RequestMapping("/insert")
-    public  Boolean insert(Banner banner, MultipartFile fileName) throws IOException {
+    public  Boolean insert(Banner banner, MultipartFile fileName,HttpServletRequest request) throws IOException {
+
+        // jar  commons-io    commons-fileUpload jar文件上传的jar包
 
         System.out.println("添加是数据需要接收的数据---->"+banner);
         System.out.println(fileName+"上传的文件");
+
+        //获得项目的根路劲
+        String contextPath = request.getSession().getServletContext().getRealPath("/");
+        File file=new File(contextPath+"/upload");
+
+        //如果没有这个文件夹就新建
+        if(!file.exists()){
+            file.mkdir();
+        }
 
         //得到文件老的名字
         String oldName=fileName.getOriginalFilename();
@@ -67,14 +78,11 @@ public class BannerController {
         String newName= UUID.randomUUID().toString()+"_"+oldName;
         System.out.println("新文件的名字"+newName);
 
-        //创建file文件
-        File file=new File("G:\\idea\\maven\\finally\\cmfz_zjh\\src\\main\\webapp\\img\\"+newName);
-
         //写入到磁盘里面
-        fileName.transferTo(file);
-        banner.setUrl("img/" + newName);
-        try {
 
+        try {
+            fileName.transferTo(new File(file,newName));
+            banner.setUrl("upload/" + newName);
             bannerService.insert(banner);
             return true;
         } catch (Exception e) {
