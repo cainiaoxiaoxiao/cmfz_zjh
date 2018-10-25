@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by no on 2018/10/24.
@@ -62,12 +63,16 @@ public class BannerController {
         String oldName=fileName.getOriginalFilename();
         System.out.println("oldName-------------"+oldName);
 
+        //得到文件的新名字
+        String newName= UUID.randomUUID().toString()+"_"+oldName;
+        System.out.println("新文件的名字"+newName);
+
         //创建file文件
-        File file=new File("G:\\idea\\maven\\finally\\cmfz_zjh\\src\\main\\webapp\\img\\"+oldName);
+        File file=new File("G:\\idea\\maven\\finally\\cmfz_zjh\\src\\main\\webapp\\img\\"+newName);
 
         //写入到磁盘里面
         fileName.transferTo(file);
-        banner.setUrl("img/" + oldName);
+        banner.setUrl("img/" + newName);
         try {
 
             bannerService.insert(banner);
