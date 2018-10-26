@@ -6,6 +6,7 @@ import com.baizhi.service.ChapterService;
 import it.sauronsoftware.jave.EncoderException;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,14 +39,17 @@ public class ChapterController {
     }
 
     @RequestMapping("/downloadChapter")
-    public void downloadChapter(String url, HttpServletRequest request, HttpServletResponse response){
+    public void downloadChapter(String url, String name,HttpServletRequest request, HttpServletResponse response){
         String realPath = request.getSession().getServletContext().getRealPath("/");
         File file=new File(realPath+"/"+url);
         System.out.println(file+"---aaaaaaaaaaaaaaaaa");
        // String fileName=url.substring(url.indexOf("-")+1);
+        String extension = FilenameUtils.getExtension(url);
+        String newName = name + "." + extension;
+
         try {
-            response.setHeader("content-disposition", "attachment;url="+URLEncoder.encode(url,"UTF-8"));
-            File file1=new File("f:/a/"+url);
+            response.setHeader("content-disposition", "attachment;fileName="+URLEncoder.encode(newName,"UTF-8"));
+           response.setContentType("audio/mpeg");
             FileUtils.copyFile(file,response.getOutputStream());
            // FileUtils.copyFile(file,file1);
         } catch (Exception e) {

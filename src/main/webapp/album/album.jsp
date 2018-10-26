@@ -22,19 +22,16 @@
                     // alert('专辑详情')
                     var a = $('#ablum_query').treegrid("getSelected");
                     if (a != null) {
-                        if (a.id.length == 36) {
+                        if (a.url!=null) {
                             $.messager.alert('提示消息', '请选择一级目录！', 'info');
 
                         } else {
                             //console.log(a)
                             $('#ablum_particular').dialog('open');
-                            $("#ablum_name1").html("标题：" + a.name);
-                            $("#ablum_coverImg1").prop("src", "${pageContext.request.contextPath}/img/" + a.coverImg);
-                            $("#ablum_count1").html("音频有" + a.count);
-                            $("#ablum_score1").html("评分：" + a.score);
-                            $("#ablum_author1").html("作者：" + a.author);
-                            $("#ablum_broadCast1").html("播音：" + a.broadCast);
-                            $("#ablum_brief1").html(a.brief);
+
+                            $('#ablum_zhanshi').form('load',a);
+                            $("#ablum_coverImg1").prop("src", "${pageContext.request.contextPath}/" + a.coverImg);
+
                         }
                     } else {
                         $.messager.alert('提示消息', '请选择一级目录！', 'info');
@@ -54,7 +51,7 @@
                 handler: function () {
                     var a = $('#ablum_query').treegrid("getSelected");
                     if (a != null) {
-                        if (a.id.length == 36) {
+                        if (a.url!=null) {
                             $.messager.alert('提示消息', '请选择一级目录！', 'info');
                         }else{
                             $('#chapter_add').dialog('open');
@@ -75,8 +72,9 @@
                 handler: function () {
                     var a = $('#ablum_query').treegrid("getSelected");
                     if (a != null) {
-                        if (a.id.length == 36) {
-                            window.location.href="${pageContext.request.contextPath}/chapter/downloadChapter?url="+a.url;
+                        if (a.url!=null) {
+                            alert(a.name)
+                            window.location.href="${pageContext.request.contextPath}/chapter/downloadChapter?url="+a.url+"&name="+a.name;
 
                         }else{
 
@@ -90,12 +88,14 @@
 
             }
             ],
-            onDblClickRow:function(row){
+            onDblClickRow:function(row) {
 
-                $("#audioCha").prop("src","${pageContext.request.contextPath}/"+row.url);
-               var f= $("#audioCha").prop("src");
-                console.log(f);
-                $("#chapter_Audio").dialog("open")
+                if(row.url!=null){
+                    $("#audioCha").prop("src","${pageContext.request.contextPath}/"+row.url);
+                    var f= $("#audioCha").prop("src");
+                    console.log(f);
+                    $("#chapter_Audio").dialog("open")
+                }
             }
 
         });
@@ -140,17 +140,31 @@
                     $('#ablum_particular').dialog('close');
 				}
 			}]">
-    <div>
-        <p id="ablum_name1"></p>
-        <p id="ablum_coverImg"></p><
-        <img src="" id="ablum_coverImg1">
-        <p id="ablum_count1"></p>
-        <p id="ablum_score1"></p>
-        <p id="ablum_author1"></p>
-        <p id="ablum_broadCast1"></p>
-        <p style="align-content: center">简介</p>
-        <p id="ablum_brief1"></p>
-    </div>
+    <form id="ablum_zhanshi" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="name_ab">专题的名字:</label>
+            <input id="name_ab" class="easyui-validatebox" type="text" name="name" data-options="required:true"/>
+        </div>
+        <div>
+            <label for="author1">专题的作者:</label>
+            <input id="author1" class="easyui-validatebox" type="text" name="author" data-options="validType:true"/>
+        </div>
+        <div>
+            <label for="broadCast1">播音:</label>
+            <input id="broadCast1" class="easyui-validatebox" type="text" name="broadCast" data-options="required:true"/>
+        </div>
+        <div>
+            <label for="publishDate1">专辑创建时间:</label>
+            <input id="publishDate1" class="easyui-validatebox" type="text" name="publishDate" data-options="required:true"/>
+        </div>
+        <div>
+            <label for="brief1">描述:</label>
+            <input id="brief1" class="easyui-validatebox" type="text" name="brief" data-options="validType:true"/>
+        </div>
+        <div>
+            封面图片 <img src="" id="ablum_coverImg1" name="coverImg" width="50px" height="50px">
+        </div>
+    </form>
 </div>
 
 
@@ -182,6 +196,7 @@
             <label for="broadCast">播音:</label>
             <input id="broadCast" class="easyui-validatebox" type="text" name="broadCast" data-options="required:true"/>
         </div>
+
         <div>
             <label for="brief">描述:</label>
             <input id="brief" class="easyui-validatebox" type="text" name="brief" data-options="validType:true"/>
@@ -226,18 +241,7 @@
 
 
 <div id="chapter_Audio" class="easyui-dialog" title="添加音频" style="width:400px;height:200px;"
-     data-options="iconCls:'icon-save',resizable:true,modal:true, closed:true,buttons:[{
-				text:'保存',
-				handler:function(){
-
-
-				}
-			},{
-			text:'关闭',
-				handler:function(){
-                    $('#chapter_Audio').dialog('close');
-				}
-			}]">
+     data-options="iconCls:'icon-save',resizable:true,modal:true, closed:true,">
 
     <audio src="" id="audioCha" controls="controls" autoplay="autoplay"></audio>
 

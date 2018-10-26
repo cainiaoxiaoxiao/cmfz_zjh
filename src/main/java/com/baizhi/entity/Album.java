@@ -1,5 +1,8 @@
 package com.baizhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +29,8 @@ public class Album {
 
     private  String brief;//专辑简介
 
-
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date publishDate;//专辑发布时间
 
     private  List<Chapter> children;
 
@@ -43,6 +47,26 @@ public class Album {
         this.author = author;
         this.broadCast = broadCast;
         this.brief = brief;
+    }
+
+    public Album(int id, String name, String coverImg, int count, double score, String author, String broadCast, String brief, Date publishDate) {
+        this.id = id;
+        this.name = name;
+        this.coverImg = coverImg;
+        this.count = count;
+        this.score = score;
+        this.author = author;
+        this.broadCast = broadCast;
+        this.brief = brief;
+        this.publishDate = publishDate;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     public String getAuthor() {
@@ -119,13 +143,16 @@ public class Album {
 
     @Override
     public String toString() {
-        return "AlbumDao{" +
-                "id='" + id + '\'' +
+        return "Album{" +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", coverImg='" + coverImg + '\'' +
                 ", count=" + count +
                 ", score=" + score +
+                ", author='" + author + '\'' +
+                ", broadCast='" + broadCast + '\'' +
                 ", brief='" + brief + '\'' +
+                ", publishDate=" + publishDate +
                 ", children=" + children +
                 '}';
     }

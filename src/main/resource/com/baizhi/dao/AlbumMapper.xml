@@ -13,6 +13,7 @@
         <result column="author" property="author"></result>
         <result column="broadCast" property="broadCast"></result>
         <result column="brief" property="brief"></result>
+        <result column="publishDate" property="publishDate"></result>
         <collection property="children" ofType="chapter">
             <id column="id1" property="id"></id>
             <result column="name1" property="name"></result>
@@ -30,7 +31,7 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO album VALUES(#{id},#{name},#{coverImg},0,0,#{author},#{broadCast},#{brief})
+        INSERT INTO album VALUES(#{id},#{name},#{coverImg},0,0,#{author},#{broadCast},#{brief},SYSDATE())
     </insert>
 
     <update id="update">

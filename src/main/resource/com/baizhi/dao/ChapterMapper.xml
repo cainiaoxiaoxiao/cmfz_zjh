@@ -19,6 +19,7 @@
             <result column="author" property="author"></result>
             <result column="broadCast" property="broadCast"></result>
             <result column="brief" property="brief"></result>
+            <result column="publishDate" property="publishDate"></result>
         </collection>
 
     </resultMap>
