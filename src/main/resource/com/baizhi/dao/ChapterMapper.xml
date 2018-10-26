@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.ChapterDao">
+
+    <resultMap id="map" type="chapter">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="url" property="url"></result>
+        <result column="size" property="size"></result>
+        <result column="duration" property="duration"></result>
+        <collection property="adminFa" ofType="album">
+            <id column="id" property="id"></id>
+            <result column="name" property="name"></result>
+            <result column="coverImg" property="coverImg"></result>
+            <result column="count" property="count"></result>
+            <result column="score" property="score"></result>
+            <result column="author" property="author"></result>
+            <result column="broadCast" property="broadCast"></result>
+            <result column="brief" property="brief"></result>
+        </collection>
+
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO chapter VALUE(UUID(),#{name},#{url},#{size},#{duration},#{adminFa.id})
+    </insert>
+
+</mapper>

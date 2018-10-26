@@ -13,8 +13,5 @@ public interface MenuService {
      */
     public List<Menu> queryAll();
 
-    /**
-     * 根据父类id查询
-     */
-    public List<Menu> queryById(int id);
+
 }

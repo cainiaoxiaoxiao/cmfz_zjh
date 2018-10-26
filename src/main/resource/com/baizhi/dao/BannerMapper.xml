@@ -25,4 +25,6 @@
         insert into banner values(#{id},#{name},#{url},
         0,SYSDATE(),#{description});
     </insert>
+
+
 </mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baizhi.dao.AlbumDao">
+
+    <resultMap id="map" type="album">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="coverImg" property="coverImg"></result>
+        <result column="count" property="count"></result>
+        <result column="score" property="score"></result>
+        <result column="author" property="author"></result>
+        <result column="broadCast" property="broadCast"></result>
+        <result column="brief" property="brief"></result>
+        <collection property="children" ofType="chapter">
+            <id column="id1" property="id"></id>
+            <result column="name1" property="name"></result>
+            <result column="url" property="url"></result>
+            <result column="size" property="size"></result>
+            <result column="duration" property="duration"></result>
+        </collection>
+
+    </resultMap>
+
+    <select id="queryAll" resultMap="map">
+        select a.*,c.id id1,c.name name1,c.url,c.size,c.duration
+        from album a LEFT JOIN chapter c ON a.id=c.album_id
+
+    </select>
+
+    <insert id="insert">
+        INSERT INTO album VALUES(#{id},#{name},#{coverImg},0,0,#{author},#{broadCast},#{brief})
+    </insert>
+
+    <update id="update">
+        update album set count=#{count} where id=#{id};
+    </update>
+</mapper>

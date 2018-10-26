@@ -20,16 +20,11 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping("/queryAll")
-    public @ResponseBody List queruAll(){
+    public @ResponseBody List queryAll(){
         System.out.println("进来查找菜单了");
         List<Menu> list = menuService.queryAll();
-       // map.put("list",list);
         return list;
     }
 
-    @RequestMapping("queryById")
-    public List queryById(int id){
-        System.out.println("进来查找二级菜单了");
-        return menuService.queryById(id);
-    }
+
 }

@@ -8,10 +8,12 @@ import com.google.code.kaptcha.util.Config;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.convert.converter.Converter;
 
 
+import javax.servlet.MultipartConfigElement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -63,5 +65,14 @@ public class CmfzApp {
             }
         };
     }
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory config = new MultipartConfigFactory();
+        config.setMaxFileSize("9000MB");
+        config.setMaxRequestSize("9000MB");
+        return config.createMultipartConfig();
+    }
+
 
 }
