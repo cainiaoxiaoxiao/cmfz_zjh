@@ -27,15 +27,20 @@ public class ChapterController {
     private ChapterService chapterService;
 
     @RequestMapping("/insert")
-    public void insert(MultipartFile fileName, Chapter chapter, HttpServletRequest request) throws EncoderException {
-        String realPath = request.getSession().getServletContext().getRealPath("/");
+    public Boolean insert(MultipartFile fileName, Chapter chapter, HttpServletRequest request) throws EncoderException {
+        try {
+            String realPath = request.getSession().getServletContext().getRealPath("/");
 
-        File file=new File(realPath+"/chapterUpload");
-        if(!file.exists()){
-            file.mkdir();
+            File file=new File(realPath+"/chapterUpload");
+            if(!file.exists()){
+                file.mkdir();
+            }
+            chapterService.insert(fileName,file,chapter);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        chapterService.insert(fileName,file,chapter);
-
+        return false;
     }
 
     @RequestMapping("/downloadChapter")

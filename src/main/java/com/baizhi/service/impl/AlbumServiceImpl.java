@@ -1,11 +1,8 @@
 package com.baizhi.service.impl;
 
 import com.baizhi.dao.AlbumDao;
-import com.baizhi.entity.Admin;
 import com.baizhi.entity.Album;
-import com.baizhi.service.AdminService;
 import com.baizhi.service.AlbumService;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -30,8 +29,18 @@ public class AlbumServiceImpl implements AlbumService {
 
 
     @Override
-    public List<Album> queryAll() {
-        return albumDao.queryAll();
+    public Map queryAll(int page, int rows) {
+        Map map =new HashMap();
+
+        int start=(page-1)*rows;
+        int end=rows;
+
+        List<Album> list = albumDao.queryAll(start,end);
+        int total = albumDao.countTo();
+
+        map.put("rows",list);
+        map.put("total",total);
+        return map;
     }
 
     @Override

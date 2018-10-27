@@ -27,6 +27,7 @@
     <select id="queryAll" resultMap="map">
         select a.*,c.id id1,c.name name1,c.url,c.size,c.duration
         from album a LEFT JOIN chapter c ON a.id=c.album_id
+        LIMIT #{start},#{end}
 
     </select>
 
@@ -37,4 +38,8 @@
     <update id="update">
         update album set count=#{count} where id=#{id};
     </update>
+    <select id="countTo" resultType="int">
+
+        select COUNT(id) from album
+    </select>
 </mapper>

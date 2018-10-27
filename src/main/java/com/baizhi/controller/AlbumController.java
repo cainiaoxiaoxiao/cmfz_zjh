@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by no on 2018/10/25.
@@ -22,21 +22,26 @@ public class AlbumController {
     private AlbumService albumService;
     
     @RequestMapping("queryAll")
-    public List<Album> queryAll(){
+    public Map queryAll(int page, int rows){
 
-        return albumService.queryAll();
+        return albumService.queryAll(page,rows);
     }
 
     @RequestMapping("insert")
-    public void insert(MultipartFile fileName, Album album, HttpServletRequest request){
-        String realPath = request.getSession().getServletContext().getRealPath("/");
+    public Boolean insert(MultipartFile fileName, Album album, HttpServletRequest request){
 
-        File file=new File(realPath+"/albumUpload");
-        if(!file.exists()){
-            file.mkdir();
+
+        try {
+            String realPath = request.getSession().getServletContext().getRealPath("/");
+            File file=new File(realPath+"/albumUpload");
+            if(!file.exists()){
+                file.mkdir();
+            }
+            albumService.insert(album,fileName,file);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-        albumService.insert(album,fileName,file);
+        return false;
     }
 }

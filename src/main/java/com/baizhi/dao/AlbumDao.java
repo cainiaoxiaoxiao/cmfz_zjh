@@ -13,7 +13,7 @@ public interface AlbumDao {
     /**
      * 查询所有专辑和专辑下的音频
      */
-    public List<Album> queryAll();
+    public List<Album> queryAll(@Param("start")int start,@Param("end")int end);
 
     /**
      * 添加专辑
@@ -24,4 +24,10 @@ public interface AlbumDao {
      * 修改数量
      */
     public void update(@Param("id") int id, @Param("count") int count);
+
+
+    /**
+     * 查询总数量
+     */
+    public int countTo();
 }

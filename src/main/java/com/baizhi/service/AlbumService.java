@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.File;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by no on 2018/10/25.
@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface AlbumService {
 
-    public List<Album> queryAll();
+    public Map queryAll(int page,int rows);
 
     public void insert(Album album,MultipartFile multipartFile,File file);
 }
