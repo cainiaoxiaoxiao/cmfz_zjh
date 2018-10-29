@@ -15,5 +15,30 @@
             ,"sign",#{user.phoneNum},"salt",#{user.regDate})
         </foreach>
     </insert>
+    
+    
+    <select id="queryDate" resultType="Integer">
+        SELECT COUNT(*) from user where DATEDIFF(SYSDATE(),regDate)&lt;=7
+        UNION all
+        SELECT COUNT(*) from user where DATEDIFF(SYSDATE(),regDate)&lt;=14
+        UNION ALL
+        SELECT COUNT(*) from user where DATEDIFF(SYSDATE(),regDate)&lt;=21
+    </select>
+    
+    <select id="queryLocatNan" resultType="userLocationDTO">
+        SELECT province name,count(*) value  from user where sex="男" GROUP BY province
+    </select>
+    <select id="queryLocatNv" resultType="userLocationDTO">
+        SELECT province name,count(*) value  from user where sex="女" GROUP BY province
+    </select>
+    <!--<select id="queryLocat" resultType="userLocationDTO">
+        SELECT province name ,count(*) value  from user
+         <where>
+             <if test="sex!=null">
+                sex=#{sex}
+             </if>
+         </where>
+         GROUP BY province
+    </select>-->
 
 </mapper>

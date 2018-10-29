@@ -2,6 +2,7 @@ package com.baizhi.service.impl;
 
 import com.baizhi.dao.UserDao;
 import com.baizhi.entity.User;
+import com.baizhi.entity.UserLocationDTO;
 import com.baizhi.service.UserService;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
@@ -15,10 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by no on 2018/10/28.
@@ -265,6 +263,46 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
 
         }
+    }
+
+    @Override
+    public Map statisticsDate() {
+
+        List<Integer> list = userDao.queryDate();
+        Map map = new HashMap();
+        map.put("intervals",new String[]{"7天","15天","21天"});
+        map.put("counts",list);
+        return map;
+    }
+
+    @Override
+    public List<UserLocationDTO> queryLocatNan() {
+
+        return  userDao.queryLocatNan();
+
+    }
+
+    @Override
+    public List<UserLocationDTO> queryLocatNv() {
+
+        return  userDao.queryLocatNv();
+    }
+
+    @Override
+    public List<Map> queryLocat(String sex) {
+
+        List list1=new ArrayList();
+        List<UserLocationDTO> list = userDao.queryLocat(sex);
+        for (UserLocationDTO userLocationDTO : list) {
+            Map map =new HashMap();
+            String province = userLocationDTO.getName();
+            int count = userLocationDTO.getValue();
+            map.put("name",province);
+            map.put("value",count);
+            list1.add(map);
+
+        }
+        return list1 ;
     }
 
 }
